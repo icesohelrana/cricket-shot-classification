@@ -1,0 +1,15 @@
+model:
+  num_classes: 2
+  cnnrnn:
+    rnn_hidden_size: 256
+    rnn_num_layers: 1
+
+training:
+  batch_size: 1
+  lr: 0.001
+  epoch: 10
+
+
+dataset:
+  data_dir: "/media/sohel/HDD2/googledrive/cricket_shot_dataset"
+  ann_dir: "/media/sohel/HDD2/googledrive/cricket_shot_dataset/classification_labels.csv"
