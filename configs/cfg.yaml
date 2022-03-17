@@ -5,11 +5,11 @@ model:
     rnn_num_layers: 1
 
 training:
-  batch_size: 1
-  lr: 0.001
-  epoch: 10
+  batch_size: 8
+  lr: 0.0001
+  epoch: 20
 
 
 dataset:
-  data_dir: "/media/sohel/HDD2/googledrive/cricket_shot_dataset"
-  ann_dir: "/media/sohel/HDD2/googledrive/cricket_shot_dataset/classification_labels.csv"
+  data_dir: "/nfs/users/sohel/cricket_shot_dataset"
+  ann_dir: "/nfs/users/sohel/cricket_shot_dataset/classification_labels.csv"

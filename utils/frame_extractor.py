@@ -17,5 +17,5 @@ def video_frame_extractor(root_dir):
                 subprocess.call(['ffmpeg', '-i', video_path, '-vf', 'fps=30', os.path.join(video_save_path,'%04d.png')])
 
 if __name__ == '__main__':
-    root_dir="/media/sohel/HDD2/googledrive/cricket_shot_dataset"
+    root_dir="/nfs/users/sohel/cricket_shot_dataset"
     video_frame_extractor(root_dir)

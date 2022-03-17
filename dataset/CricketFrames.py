@@ -3,6 +3,7 @@ from torch import nn
 from torch.utils.data import DataLoader, Dataset
 import torchvision.transforms as transforms
 import pandas as pd
+import numpy as np
 import cv2
 import glob
 import os
@@ -23,7 +24,7 @@ class FramesLoader(Dataset):
         self.corp_person = True
         self.seq_len = 20 #no of frames per video
         self.channels = 3 #channels
-        self.image_size = (256,128) # person box (h,w)
+        self.image_size = (64,64) # person box (h,w)
         self.map_labels = {'cut_shot': 0, 'cover_drive': 1}
         self.map_labels_quality = {'bad': 0, 'good': 1}
         self.size = len(self.videos)
@@ -32,16 +33,9 @@ class FramesLoader(Dataset):
     def __getitem__(self, index):
         video_tensor=self.load_frames(self.videos[index]) # dimension Time X H X W
         class_label_tensor = torch.tensor(self.map_labels[self.class_labels[index]])
-        quality_tensor = torch.tensor(self.map_labels_quality[self.qualities[index]])
-        return video_tensor, class_label_tensor, quality_tensor
+        video_info=len(video_tensor)
+        # quality_tensor = torch.tensor(self.map_labels_quality[self.qualities[index]])
+        return video_tensor, class_label_tensor,video_info#, quality_tensor
     def load_frames(self,video_frames):
         frames_tensor=[self.transforms(cv2.cvtColor(cv2.imread(video_frame,cv2.IMREAD_UNCHANGED),cv2.COLOR_BGR2RGB)) for video_frame in video_frames]
         return torch.stack(frames_tensor)
-# if __name__ == '__main__':
-#     csv = "/home/vishnu/projects/sport_analytics/ienhance/training_dataset-20210904T114259Z-001/training_dataset/classification_labels_pred.csv"
-#     semantics_root = "/home/vishnu/projects/sport_analytics/ienhance/semantics_backup"
-#     video_root = "/home/vishnu/projects/sport_analytics/ienhance/training_dataset-20210904T114259Z-001/training_dataset"
-    
-#     video_root = "/media/sohel/HDD2/googledrive/cricket_shot_dataset"
-#     ann_file = "/media/sohel/HDD2/googledrive/cricket_shot_dataset/classification_labels.csv"
-#     dataset = FramesLoader(video_root,ann_file)
