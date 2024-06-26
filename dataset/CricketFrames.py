@@ -8,19 +8,20 @@ import cv2
 import glob
 import os
 
+from dataset.utils import get_numeric_sort_key
+
 class FramesLoader(Dataset):
-    def __init__(self, video_root, ann_file):
+    def __init__(self, video_root):
         self.transforms = transforms.Compose([transforms.ToTensor(),transforms.Resize((128,64)),transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
-        self.video_root = video_root
-        ann = pd.read_csv(ann_file)
-        videos,shots,qualities=ann.iloc[:,0],ann.iloc[:,1],ann.iloc[:,4]
-        self.videos,self.class_labels,self.qualities=[],[],[]
-        for video,shot,quality in zip(videos,shots,qualities):
-            class_name,video_name=video.split('\\')
-            self.class_labels.append(shot)
-            video_frames=glob.glob(os.path.join(self.video_root,class_name+'_frames',video_name.split(".")[0],"*"))
-            self.videos.append(sorted(video_frames))
-            self.qualities.append(quality)
+        shots = os.listdir(video_root)
+        self.videos,self.class_labels = [],[]
+        for shot in shots:
+            videos = glob.glob(os.path.join(video_root,shot,'*/'))
+            for video in videos:
+                frames = glob.glob(os.path.join(video,'*'))
+                frames = sorted(frames, key=get_numeric_sort_key)
+                self.videos.append(frames)
+                self.class_labels.append(shot)
         self.corp_person = True
         self.seq_len = 20 #no of frames per video
         self.channels = 3 #channels

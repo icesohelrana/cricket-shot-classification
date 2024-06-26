@@ -11,5 +11,5 @@ training:
 
 
 dataset:
-  data_dir: "/nfs/users/sohel/cricket_shot_dataset"
-  ann_dir: "/nfs/users/sohel/cricket_shot_dataset/classification_labels.csv"
+  data_dir: /nfs/users/sohel/shot-classification-frames #"/nfs/users/sohel/cricket_shot_dataset"
+  # ann_dir: "/nfs/users/sohel/cricket_shot_dataset/classification_labels.csv"

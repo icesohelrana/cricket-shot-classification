@@ -53,7 +53,7 @@ def val_epoch(model,val_loader,criterion):
     return avg_losses,total_val_res
 
 def train(cfg):
-    dataset = FramesLoader(cfg['dataset']['data_dir'],cfg['dataset']['ann_dir'])
+    dataset = FramesLoader(cfg['dataset']['data_dir'])
     train_size = int(0.7 * (round(len(dataset))))  # split in 0.7,0.3 for train and test.
     test_size = len(dataset) - train_size
     train_dataset, test_dataset = random_split(dataset, [train_size, test_size], generator=torch.Generator().manual_seed(0))
